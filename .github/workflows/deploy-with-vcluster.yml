@@ -26,7 +26,10 @@ jobs:
         run: vcluster platform create vcluster $NAME --project default --template my-template --link "Preview=http://test.hrittikhere.live"
 
       - name: Deploy Application to vCluster
-        run: kubectl apply -f deploy/
+        run: |
+          pwd
+          ls
+          kubectl apply -f deploy/
 
       - name: Test Application with curl
         run: |
