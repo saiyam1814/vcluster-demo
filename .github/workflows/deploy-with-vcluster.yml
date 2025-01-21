@@ -23,7 +23,8 @@ jobs:
       - name: Create vCluster
         env:
           NAME: deploy-vcluster
-        run: vcluster platform create $NAME --project default --template my-template --link "Preview=http://test.hrittikhere.live"
+        run: vcluster platform create vcluster $NAME --project default --template my-template --link "Preview=http://test.hrittikhere.live"
+
       - name: Deploy Application to vCluster
         run: kubectl apply -f deploy/
 
