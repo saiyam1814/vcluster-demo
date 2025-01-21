@@ -1,0 +1,36 @@
+name: Deploy with vCluster
+
+on:
+  workflow_run:
+    workflows: ["Build and Publish with ko"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install vCluster CLI
+        uses: loft-sh/setup-vcluster@main
+
+      - name: Login to vCluster Platform instance
+        env:
+          LOFT_URL: ${{ secrets.VCLUSTER_PLATFORM_URL }}
+          ACCESS_KEY: ${{ secrets.VCLUSTER_ACCESS_KEY }}
+        run: vcluster platform login $LOFT_URL --access-key $ACCESS_KEY
+
+      - name: Create vCluster
+        env:
+          NAME: deploy-vcluster
+        run: vcluster platform create $NAME \
+            --project default \
+            --template my-template \
+            --link "Preview=http://test.hrittikhere.live"
+      - name: Deploy Application to vCluster
+        run: kubectl apply -Rf deploy/
+
+      - name: Test Application with curl
+        run: |
+          sleep 10  # Wait for the application to be ready
+          curl --retry 5 --retry-delay 10 http://test.hrittikhere.live/
