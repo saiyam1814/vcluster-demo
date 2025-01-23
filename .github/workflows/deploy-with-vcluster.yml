@@ -24,12 +24,14 @@ jobs:
         env:
           NAME: deploy-vcluster
         run: vcluster platform create vcluster $NAME --project default --template my-template --link "Preview=http://test.hrittikhere.live"
-
+      - name: Check Out Repository Code
+        uses: actions/checkout@v4
+        
       - name: Deploy Application to vCluster
         run: |
           pwd
           ls
-          kubectl apply -f deploy/deployment.yaml
+          kubectl apply -Rf ./deploy/deployment.yaml
 
       - name: Test Application with curl
         run: |
