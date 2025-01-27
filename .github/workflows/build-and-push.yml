@@ -75,19 +75,16 @@ jobs:
           vcluster platform login $LOFT_URL --access-key $ACCESS_KEY
 
       # Step 10: Create vCluster for the PR
-      - name: Create PR-specific vCluster
+      - name: Create A vCluster
         env:
           NAME: pr-${{ github.event.pull_request.number }}
         run: |
-          vcluster platform create $NAME \
-            --project default \
-            --template my-template \
-            --link "Preview=http://pr${{ github.event.pull_request.number }}.test.live"
+          vcluster platform create vcluster $NAME --project default --template my-template --link "Preview=http://test.hrittikhere.live"
 
       # Step 11: Deploy to vCluster
       - name: Deploy Application to vCluster
         run: |
-          vcluster connect pr-${{ github.event.pull_request.number }} -- kubectl apply -Rf deploy/
+          kubectl apply -Rf deploy/
 
       # Step 12: Test Application with curl
       - name: Test Application
