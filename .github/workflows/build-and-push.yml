@@ -54,7 +54,7 @@ jobs:
           strict: true
           variables: |
             image_deploy_tag=${{ env.image_deploy_tag }}
-            ingress_tag=http://pr${{ github.event.pull_request.number }}.hrittikhere.live
+            ingress_tag=pr${{ github.event.pull_request.number }}.hrittikhere.live
 
       # Step 7: Push to a Feature Branch
       - name: Push Deployment Manifest
