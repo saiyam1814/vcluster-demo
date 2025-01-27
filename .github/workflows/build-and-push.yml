@@ -77,7 +77,7 @@ jobs:
       # Step 10: Create vCluster for the PR
       - name: Create A vCluster
         env:
-          NAME: pr-${{ github.event.pull_request.number }}
+          NAME: deploy-vcluster
         run: |
           vcluster platform create vcluster $NAME --project default --template my-template --link "Preview=http://test.hrittikhere.live"
 
@@ -90,4 +90,4 @@ jobs:
       - name: Test Application
         run: |
           sleep 10  # Wait for the application to be ready
-          curl --retry 5 --retry-delay 10 http://pr${{ github.event.pull_request.number }}.test.live/
+          curl --retry 5 --retry-delay 10 http://test.hrittikhere.live
