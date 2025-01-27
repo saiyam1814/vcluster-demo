@@ -54,6 +54,7 @@ jobs:
           strict: true
           variables: |
             image_deploy_tag=${{ env.image_deploy_tag }}
+            ingress_tag=http://pr${{ github.event.pull_request.number }}.test.hrittikhere.live
 
       # Step 7: Push to a Feature Branch
       - name: Push Deployment Manifest
@@ -77,9 +78,9 @@ jobs:
       # Step 10: Create vCluster for the PR
       - name: Create A vCluster
         env:
-          NAME: deploy-vcluster
+          NAME: pr-${{ github.event.pull_request.number }}
         run: |
-          vcluster platform create vcluster $NAME --project default --template my-template --link "Preview=http://test.hrittikhere.live"
+          vcluster platform create vcluster $NAME --project default --template my-template --link "Preview=http://pr${{ github.event.pull_request.number }}.test.hrittikhere.live"
 
       # Step 11: Deploy to vCluster
       - name: Deploy Application to vCluster
@@ -90,4 +91,4 @@ jobs:
       - name: Test Application
         run: |
           sleep 10  # Wait for the application to be ready
-          curl --retry 5 --retry-delay 10 http://test.hrittikhere.live
+          curl --retry 5 --retry-delay 10 http://pr${{ github.event.pull_request.number }}.test.hrittikhere.live
