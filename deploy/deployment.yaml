@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hello-world
-        image: docker.io/saiyam911/vcluster-demo:sha-04716d3
+        image: docker.io/saiyam911/vcluster-demo:sha-9515064
         ports:
         - containerPort: 8080
 ---
