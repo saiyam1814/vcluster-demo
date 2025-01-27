@@ -27,4 +27,4 @@ jobs:
         env:
           NAME: pr-${{ github.event.pull_request.number }}
         run: |
-          vcluster platform delete $NAME --project default
+          vcluster platform delete vcluster $NAME --project default
