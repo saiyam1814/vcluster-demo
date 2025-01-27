@@ -60,7 +60,7 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: feature-test-${{ github.event.pull_request.head.sha }}
+          branch: refs/heads/feature-test-${{ github.event.pull_request.head.sha }}
 
       # Step 8: Install vCluster CLI
       - name: Install vCluster CLI
