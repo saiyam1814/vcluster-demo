@@ -44,6 +44,7 @@ jobs:
           export IMAGE_TAG=sha-$(git rev-parse --short HEAD)
           echo "image_deploy_tag=docker.io/saiyam911/vcluster-demo:$IMAGE_TAG" >> $GITHUB_ENV
           ko build --bare -t $IMAGE_TAG
+          
 
       # Step 6: Generate Deployment Manifest
       - name: Generate Deployment Manifest
@@ -58,11 +59,13 @@ jobs:
 
       # Step 7: Push to a Feature Branch
       - name: Push Deployment Manifest
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: refs/heads/feature-test-${{ github.event.pull_request.head.sha }}
-
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add deploy/deployment.yaml
+          git commit -m "Adding deployment.yaml for PR-${{ github.event.pull_request.number }}" || echo "No changes to commit"
+          git push origin feature-test-${{ github.event.pull_request.head.sha }} --force
+        
       # Step 8: Install vCluster CLI
       - name: Install vCluster CLI
         uses: loft-sh/setup-vcluster@main
