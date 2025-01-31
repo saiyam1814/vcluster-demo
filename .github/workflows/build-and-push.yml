@@ -62,6 +62,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git checkout -b feature-test-${{ github.event.pull_request.head.sha }}
           git add deploy/deployment.yaml
           git commit -m "Adding deployment.yaml for PR-${{ github.event.pull_request.number }}" || echo "No changes to commit"
           git push origin feature-test-${{ github.event.pull_request.head.sha }} --force
